@@ -1,24 +1,23 @@
-# docker/Dockerfile
-FROM python:3.10-slim
+FROM python:3.10
+RUN adduser -D microblog
 
-# Set working directory
-WORKDIR /app
+WORKDIR /home/microblog
 
-# Copy the requirements folder
-COPY requirements/ ./requirements/
+# COPY . .
+COPY app app
+COPY migrations migrations
+COPY requirements requirements
+COPY requirements.txt microblog.py boot.sh ./
 
-# Install Python dependencies (production)
-RUN pip install --no-cache-dir -r requirements/prod.txt -r requirements/deploy.txt
+RUN python -m venv .venv
+RUN .venv/bin/pip3 install -r requirements.txt
 
-# Copy the rest of the app
-COPY . .
+ENV FLASK_APP microblog.py
 
-# Environment variables
-ENV FLASK_APP=microblog
-ENV FLASK_ENV=production
+RUN chmod +x boot.sh
+RUN chown -R microblog:microblog ./
 
-# Expose Flask's port
+USER microblog
+
 EXPOSE 5000
-
-# Run the app
-CMD ["flask", "run", "--host=0.0.0.0"]
+ENTRYPOINT ["./boot.sh"]
