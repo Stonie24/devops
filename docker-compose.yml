@@ -1,0 +1,46 @@
+
+services:
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: microblog
+      MYSQL_USER: microblog
+      MYSQL_PASSWORD: microblogpass
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  prod:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: microblog
+    restart: always
+    environment:
+      FLASK_APP: microblog
+      FLASK_ENV: production
+      DATABASE_URL: mysql+pymysql://microblog:microblogpass@db/microblog
+    depends_on:
+      - db
+    ports:
+      - "5000:5000"
+
+  test:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile_test
+    container_name: microblog_test
+    environment:
+      FLASK_ENV: testing
+      DATABASE_URL: mysql+pymysql://microblog:microblogpass@db/microblog_test
+    depends_on:
+      - db
+    volumes:
+      - ./:/app
+    command: ["/run-tests.sh"]
+
+volumes:
+  db_data:
