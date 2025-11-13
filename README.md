@@ -10,7 +10,7 @@ Released as part of a University course: https://dbwebb.se/kurser/devops
 The application used in this course is based on [The flask mega tutorial](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world).
 
 
-
+[![Python application](https://github.com/Stonie24/devops/actions/workflows/python-app.yml/badge.svg)](https://github.com/Stonie24/devops/actions/workflows/python-app.yml)
 
 Dev environment
 ------------------

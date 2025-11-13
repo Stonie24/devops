@@ -1,0 +1,29 @@
+# syntax=docker/dockerfile:1.4
+FROM python:3.10-alpine
+RUN adduser -D microblog
+
+WORKDIR /home/microblog
+
+# COPY . .
+COPY app app
+COPY migrations migrations
+COPY requirements requirements
+COPY requirements.txt microblog.py boot.sh ./
+
+RUN <<-EOF
+    python -m venv .venv
+    .venv/bin/pip3 install -r requirements.txt
+EOF
+
+ENV FLASK_APP microblog.py
+
+
+RUN <<-EOF
+    chmod +x boot.sh
+    chown -R microblog:microblog ./
+EOF
+
+USER microblog
+
+EXPOSE 5000
+ENTRYPOINT ["./boot.sh"]
