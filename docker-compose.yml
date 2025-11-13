@@ -16,7 +16,7 @@ services:
   prod:
     build:
       context: .
-      dockerfile: docker/Dockerfile
+      dockerfile: docker/Dockerfile_prod
     container_name: microblog
     restart: always
     environment:
