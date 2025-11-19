@@ -200,7 +200,7 @@ install:
 .PHONY: install-dev
 install-dev:
 	${pip} install -r requirements/dev.txt
-
+	$(MAKE) install-deploy
 
 
 # target: install-test                 - Install all Python packages specified in requirements/{test.txt, prod.txt}
@@ -214,4 +214,5 @@ install-test:
 .PHONY: install-deploy
 install-deploy:
 	${pip} install -r requirements/deploy.txt
+	${pip} install -r ~/.ansible/collections/ansible_collections/azure/azcollection/requirements.txt
 	cd ansible && ansible-galaxy install -r requirements.yml
