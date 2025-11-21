@@ -1,6 +1,6 @@
 ---
 packages:
-    -   fail2ban
+    # -   fail2ban # Borde ha men sist jag försökte använda det fick jag inte logga med SSH.
     -   tmux
     -   git
     -   unattended-upgrades

@@ -1,0 +1,59 @@
+---
+-   name: Install packages
+    apt:
+        name: "{{ packages }}"
+        state: present
+
+-   name: Check if certificate already exists.
+    stat:
+        path: /etc/letsencrypt/live/{{ domain_name }}/cert.pem
+    register: letsencrypt_cert
+
+-   name: debug msg to show if cert exist
+    debug: msg="{{ letsencrypt_cert.stat.exists }}"
+
+-   name: Stop services to allow certbot to generate a cert.
+    service:
+      name: nginx
+      state: stopped
+    when: not letsencrypt_cert.stat.exists
+
+-   name: Generate new certificate if one doesn't exist.
+    when: not letsencrypt_cert.stat.exists
+    command:
+      cmd: "certbot certonly --standalone --noninteractive --expand --agree-tos --email {{ admin_email }} -d {{ domain_name }} -d www.{{ domain_name }}"
+
+-   name: Remove default conf
+    file:
+        state: absent
+        path: /etc/nginx/sites-enabled/default
+
+-   name: Template nginx config to server
+    copy:
+        src: nginx.conf
+        dest: /etc/nginx/nginx.conf
+        mode: "644"
+
+
+-   name: Template nginx site config to server
+    template:
+        src: load-balancer.conf.j2
+        dest: /etc/nginx/sites-available/load-balancer.conf
+        mode: "644"
+    notify:
+    - Restart nginx
+
+-   name: Link site to enabled
+    file:
+        state: link
+        force: yes
+        src: /etc/nginx/sites-available/load-balancer.conf
+        path: /etc/nginx/sites-enabled/load-balancer.conf
+    notify:
+    - Restart nginx
+
+-   name: Start services after cert has been generated.
+    service:
+      name: nginx
+      state: started
+    when: not letsencrypt_cert.stat.exists

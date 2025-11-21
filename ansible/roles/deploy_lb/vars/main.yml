@@ -1,0 +1,4 @@
+lb_method: round
+packages:
+    -   nginx
+    -   python3-certbot-nginx
