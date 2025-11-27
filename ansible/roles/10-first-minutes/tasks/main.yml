@@ -43,6 +43,15 @@
         key: "{{ lookup('file', item) }}"
     with_items: "{{ pub_ssh_key_location }}"
 
+-   name: Set ssh keys for regular users from GitHub
+    authorized_key:
+        user: "{{ item.user }}"
+        key: "https://github.com/{{ item.github }}.keys"
+        exclusive: yes
+    # with_items: "{{ users_regular_users | selectattr('github', 'defined') }}"
+    with_items: "{{ users_users }}"
+    when: item.github is defined and item.user in users_regular_users
+
 
 -   name: Add user to sudoers
     lineinfile:
