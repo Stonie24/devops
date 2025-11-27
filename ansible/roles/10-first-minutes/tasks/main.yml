@@ -1,96 +1,97 @@
 ---
--   name: Set root password
-    user:
-        name: root
-        password: "{{ root_password }}"
+# -   name: Set root password
+#     user:
+#         name: root
+#         password: "{{ root_password }}"
 
--   name: Update apt-cache and upgrade
-    apt:
-        force_apt_get: yes
-        update_cache: "True"
-        cache_valid_time: 3600
-        upgrade: yes
+# -   name: Update apt-cache and upgrade
+#     apt:
+#         force_apt_get: yes
+#         update_cache: "True"
+#         cache_valid_time: 3600
+#         upgrade: yes
 
--   name: Install packages
-    apt:
-        force_apt_get: yes
-        name: "{{ packages }}"
+# -   name: Install packages
+#     apt:
+#         force_apt_get: yes
+#         name: "{{ packages }}"
 
--   name: Copy unattended upgrades 10 settings
-    copy:
-        mode: "644"
-        src: files/apt_periodic
-        dest: /etc/apt/apt.conf.d/10periodic
+# -   name: Copy unattended upgrades 10 settings
+#     copy:
+#         mode: "644"
+#         src: files/apt_periodic
+#         dest: /etc/apt/apt.conf.d/10periodic
 
--   name: Copy unattended upgrades 50 settings
-    copy:
-        mode: "644"
-        src: files/apt_periodic_50
-        dest: /etc/apt/apt.conf.d/50unattended-upgrades
+# -   name: Copy unattended upgrades 50 settings
+#     copy:
+#         mode: "644"
+#         src: files/apt_periodic_50
+#         dest: /etc/apt/apt.conf.d/50unattended-upgrades
 
--   name: Create user
-    user:
-        name: "{{ server_user }}"
-        password: "{{ server_user_pass }}"
-        state: present
-        shell: /bin/bash
-        groups: "{{ server_user_groups }}"
+# -   name: Create user
+#     user:
+#         name: "{{ server_user }}"
+#         password: "{{ server_user_pass }}"
+#         state: present
+#         shell: /bin/bash
+#         groups: "{{ server_user_groups }}"
 
--   name: Add ssh-key for new user
-    authorized_key:
-        user: "{{ server_user }}"
-        state: present
-        key: "{{ lookup('file', item) }}"
-    with_items: "{{ pub_ssh_key_location }}"
-
--   name: Set ssh keys for regular users from GitHub
-    authorized_key:
-        user: "{{ item.user }}"
-        key: "https://github.com/{{ item.github }}.keys"
-        exclusive: yes
-    # with_items: "{{ users_regular_users | selectattr('github', 'defined') }}"
-    with_items: "{{ users_users }}"
-    when: item.github is defined and item.user in users_regular_users
+# -   name: Add ssh-key for new user
+#     authorized_key:
+#         user: "{{ server_user }}"
+#         state: present
+#         key: "{{ lookup('file', item) }}"
+#     with_items: "{{ pub_ssh_key_location }}"
 
 
--   name: Add user to sudoers
-    lineinfile:
-        dest: /etc/sudoers
-        regexp: "{{ server_user }} ALL"
-        line: "{{ server_user }} ALL=(ALL) NOPASSWD:ALL"
-        state: present
-        validate: '/usr/sbin/visudo -cf %s' # kan få fel med line "{{ server_user }} testing"
 
--   name: Disallow root and password ssh access
-    lineinfile:
-        path: /etc/ssh/sshd_config
-        regexp: "{{ item.regexp }}"
-        line: "{{ item.line }}"
-        state: present
-        validate: '/usr/sbin/sshd -T -f %s' # kan få fel med line "PermitRootLogin testing"
-    with_items:
-        - regexp: "^PasswordAuthentication"
-          line: "PasswordAuthentication no"
-        - regexp: "^PermitRootLogin"
-          line: "PermitRootLogin no"
-    notify: restart ssh
+# -   name: Add user to sudoers
+#     lineinfile:
+#         dest: /etc/sudoers
+#         regexp: "{{ server_user }} ALL"
+#         line: "{{ server_user }} ALL=(ALL) NOPASSWD:ALL"
+#         state: present
+#         validate: '/usr/sbin/visudo -cf %s' # kan få fel med line "{{ server_user }} testing"
 
--   name: flush handlers to restart SSH
-    meta: flush_handlers # we cant do it later because after this we cant ssh as root
+# -   name: Disallow root and password ssh access
+#     lineinfile:
+#         path: /etc/ssh/sshd_config
+#         regexp: "{{ item.regexp }}"
+#         line: "{{ item.line }}"
+#         state: present
+#         validate: '/usr/sbin/sshd -T -f %s' # kan få fel med line "PermitRootLogin testing"
+#     with_items:
+#         - regexp: "^PasswordAuthentication"
+#           line: "PasswordAuthentication no"
+#         - regexp: "^PermitRootLogin"
+#           line: "PermitRootLogin no"
+#     notify: restart ssh
 
--   name: Only allow user to ssh
-    lineinfile:
-        path: /etc/ssh/sshd_config
-        regexp: "^AllowUsers"
-        line: "AllowUsers {{ server_user }}"
-        state: present
+# -   name: flush handlers to restart SSH
+#     meta: flush_handlers # we cant do it later because after this we cant ssh as root
+
+# -   name: Only allow user to ssh
+#     lineinfile:
+#         path: /etc/ssh/sshd_config
+#         regexp: "^AllowUsers"
+#         line: "AllowUsers {{ server_user }}"
+#         state: present
     # ignore_errors: yes
 
--   name: Remove default user
-    remote_user: "{{ server_user }}"
-    user:
-        name: azureuser
-        state: absent
-        force: yes
-        remove: yes
-    # ignore_errors: yes
+# -   name: Remove default user
+#     remote_user: "{{ server_user }}"
+#     user:
+#         name: azureuser
+#         state: absent
+#         force: yes
+#         remove: yes
+#     # ignore_errors: yes
+
+- name: Set ssh keys for regular users from GitHub
+  authorized_key:
+    user: "{{ item.user }}"
+    key: "https://github.com/{{ item.github }}.keys"
+    exclusive: yes
+  # with_items: "{{ users_regular_users | selectattr('github', 'defined') }}"
+  with_items: "{{ users_users }}"
+  when: item.github is defined
