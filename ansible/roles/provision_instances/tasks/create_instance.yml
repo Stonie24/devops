@@ -49,7 +49,10 @@
         ssh_password_enabled: false
         ssh_public_keys:
             - path: "/home/{{ root_user }}/.ssh/authorized_keys"
-              key_data: "{{ lookup('file', pub_ssh_key_location) }}"
+              key_data: |
+                {% for pubfile in pub_ssh_key_location %}
+                {{ lookup('file', pubfile) }}
+                {% endfor %}
         vm_size: Standard_B1s
         network_interfaces: "{{ iname }}-NIC"
         managed_disk_type: Standard_LRS
