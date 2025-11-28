@@ -9,9 +9,11 @@ server_user_groups:
     -   sudo
 
 pub_ssh_key_location:
-    - '/home/sandy/.ssh/azure.pub'
-    # - '/home/stonie/.ssh/azure.pub'
+    - './sandy.pub'
+    - './stonie.pub'
 
 users_users:
-    -  user: azureuser
+    -  user: deploy
        github: SandyN19
+    -  user: deploy
+       github: Stonie24
