@@ -1,0 +1,31 @@
+---
+- name: Install Docker
+  apt:
+    name: docker.io
+    state: present
+    update_cache: yes
+
+- name: Ensure Docker is running
+  service:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: Pull Microblog image
+  community.docker.docker_image:
+    name: sandyn19/microblog
+    tag: "1.0.1-prod"
+    source: pull
+
+- name: Start Microblog container
+  community.docker.docker_container:
+    name: microblog
+    image: sandyn19/microblog:1.0.1-prod
+    state: started
+    restart_policy: always
+    env:
+      FLASK_APP: microblog
+      FLASK_ENV: production
+      DATABASE_URL: "mysql+pymysql://microblog:microblogpass@database:3306/microblog"
+    ports:
+      - "8000:8000"
