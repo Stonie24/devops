@@ -39,6 +39,6 @@ jobs:
         chmod 700 /home/runner/.ssh/id_rsa
 
     - name: Run playbook
-      run: cd ansible/ && ansible-playbook  -i hosts deploy_app.yml  --private-key=/home/runner/.ssh/id_rsa
+      run: cd ansible/ && ansible-playbook  -i hosts microblog.yml  --private-key=/home/runner/.ssh/id_rsa
       env:
         ANSIBLE_HOST_KEY_CHECKING: "False"
