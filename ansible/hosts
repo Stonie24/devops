@@ -2,11 +2,11 @@
 localhost ansible_connection=local
 
 [appservers]
-appserver1.dusktilldawn.me ansible_host=40.69.94.120 ansible_user=deploy
-appserver2.dusktilldawn.me ansible_host=40.69.88.79 ansible_user=deploy
+appserver1.dusktilldawn.me ansible_host=52.178.180.186 ansible_user=deploy
+appserver2.dusktilldawn.me ansible_host=52.178.212.3 ansible_user=deploy
 
 [databases]
-database.dusktilldawn.me ansible_host=40.69.89.69 ansible_user=deploy
+database.dusktilldawn.me ansible_host=52.178.191.83 ansible_user=deploy
 
 [loadbalancers]
-loadbalancer.dusktilldawn.me ansible_host=40.69.94.120 ansible_user=deploy
+loadbalancer.dusktilldawn.me ansible_host=52.164.227.153 ansible_user=deploy
