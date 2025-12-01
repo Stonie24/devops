@@ -3,19 +3,22 @@
 ansible_python_interpreter: "python3"
 
 region: northeurope
-resource_group: DIDA-WISE23-DV1673-H25-LP2
-domain_name: vemvadetsomkasta.tech
+resource_group: DIDA-SANG22-DV1673-H25-LP2
+domain_name: dusktilldawn.me
 
-admin_email: wise23@student.bth.se
+admin_email: sang22@student.bth.se
 
 vmtags:
-    StudentId: wise23
+    StudentId: sang22
 
 
-pub_ssh_key_location: '/home/stonie/.ssh/azure.pub'
+pub_ssh_key_location: '/home/sandy/.ssh/azure.pub'
 
 
 server_user: "deploy"
 server_user_pass: "WiseSang123!"
 server_user_groups:
     -   sudo
+
+microblog_version: "v11.0.1"
+
