@@ -34,4 +34,4 @@ jobs:
           file: ./docker/Dockerfile_prod
           push: true
           tags: |
-            ${{ secrets.DOCKER_USERNAME }}/devops:${{ github.ref_name }}
+            ${{ secrets.DOCKER_USERNAME }}/microblog:${{ github.ref_name }}
