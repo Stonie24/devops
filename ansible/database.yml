@@ -1,7 +1,7 @@
 ---
-    -   hosts: loadbalancers
+    -   hosts: databases
         remote_user: deploy
         become: yes
         become_method: sudo
         roles:
-            -   deploy_lb
+            -   setup-mysql

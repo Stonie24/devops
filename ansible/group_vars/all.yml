@@ -3,19 +3,19 @@
 ansible_python_interpreter: "python3"
 
 region: northeurope
-resource_group: <your resource group> # Change me
-domain_name: <your domain> # Change me
+resource_group: DIDA-WISE23-DV1673-H25-LP2
+domain_name: vemvadetsomkasta.tech
 
-admin_email: <an email>
+admin_email: wise23@student.bth.se
 
 vmtags:
-    StudentId: <acronym> # Change me
+    StudentId: wise23
 
 
-pub_ssh_key_location: '<path to you local ssh public key>' # Change me, your local ssh key!
+pub_ssh_key_location: '/home/stonie/.ssh/azure.pub'
 
 
 server_user: "deploy"
-server_user_pass: "<a password>" # change me
+server_user_pass: "WiseSang123!"
 server_user_groups:
     -   sudo

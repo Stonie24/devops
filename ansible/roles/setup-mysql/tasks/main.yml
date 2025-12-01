@@ -1,0 +1,39 @@
+---
+- name: Install Docker
+  apt:
+    name: docker.io
+    state: present
+    update_cache: yes
+
+- name: Ensure Docker service is running
+  service:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: Create MySQL Docker volume
+  community.docker.docker_volume:
+    name: mysql_data
+    state: present
+
+- name: Pull MySQL image
+  community.docker.docker_image:
+    name: mysql
+    tag: "8.0"
+    source: pull
+
+- name: Run MySQL container
+  community.docker.docker_container:
+    name: mysql-db
+    image: mysql:8.0
+    state: started
+    restart_policy: always
+    env:
+      MYSQL_ROOT_PASSWORD: "supersecret"
+      MYSQL_DATABASE: "mydb"
+      MYSQL_USER: "myuser"
+      MYSQL_PASSWORD: "mypassword"
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql

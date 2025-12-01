@@ -1,2 +1,12 @@
 [local]
 localhost ansible_connection=local
+
+[appservers]
+appserver1.vemvadetsomkasta.tech  ansible_user=deploy
+appserver2.vemvadetsomkasta.tech ansible_user=deploy
+
+[databases]
+database.vemvadetsomkasta.tech ansible_user=deploy
+
+[loadbalancers]
+loadbalancer.vemvadetsomkasta.tech ansible_user=deploy

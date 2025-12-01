@@ -49,15 +49,18 @@
         ssh_password_enabled: false
         ssh_public_keys:
             - path: "/home/{{ root_user }}/.ssh/authorized_keys"
-              key_data: "{{ lookup('file', pub_ssh_key_location) }}"
+              key_data: |
+                {% for pubfile in pub_ssh_key_location %}
+                {{ lookup('file', pubfile) }}
+                {% endfor %}
         vm_size: Standard_B1s
         network_interfaces: "{{ iname }}-NIC"
         managed_disk_type: Standard_LRS
         os_disk_size_gb: 30
         image:
-            offer: Debian-10
-            publisher: Debian
-            sku: 10
+            offer: 0001-com-ubuntu-server-jammy
+            publisher: Canonical
+            sku: 22_04-lts-gen2
             version: latest
         tags:
             StudentId: "{{ vmtags.StudentId }}"

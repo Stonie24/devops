@@ -1,3 +1,19 @@
 
 root_user: azureuser
-root_password: "<a password>" # change me
+root_password: $6$VAG/FXPN2M6rqAx8$I.4/8AC37Q2YYz9p0tDCFzzjutfORwNtH.0.dXiiH1nuBsj57hoiYSaYYQ1XPYkN9FGMhSQGa1XA/CiFrf0lo.
+
+# vars for 10-first-minutes role
+server_user: deploy
+server_user_pass: $6$VAG/FXPN2M6rqAx8$I.4/8AC37Q2YYz9p0tDCFzzjutfORwNtH.0.dXiiH1nuBsj57hoiYSaYYQ1XPYkN9FGMhSQGa1XA/CiFrf0lo.
+server_user_groups:
+    -   sudo
+
+pub_ssh_key_location:
+    - './sandy.pub'
+    - './stonie.pub'
+
+users_users:
+    -  user: deploy
+       github: SandyN19
+    -  user: deploy
+       github: Stonie24
