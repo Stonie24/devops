@@ -35,11 +35,3 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/devops:${{ github.ref_name }}
-
-      - name: Deploy Microblog via Ansible
-        uses: appleboy/ansible-action@v0.0.5
-        with:
-          playbook: ./ansible/microblog.yml       
-          inventory: ./ansible/hosts       
-          extra_vars: |
-            microblog_version=${{ github.ref_name }}-prod
