@@ -11,21 +11,59 @@
     state: started
     enabled: yes
 
-- name: Pull Microblog image
+- name: Pull latest Microblog image
   community.docker.docker_image:
-    name: sandyn19/microblog
-    tag: "1.0.1-prod"
+    name: stonie24/devops
+    tag: "{{ microblog_version }}"
     source: pull
 
-- name: Start Microblog container
+- name: Start new Microblog container on temporary port
   community.docker.docker_container:
-    name: microblog
-    image: sandyn19/microblog:1.0.1-prod
+    name: microblog_new
+    image: "stonie24/devops:{{ microblog_version }}"
     state: started
     restart_policy: always
     env:
       FLASK_APP: microblog
       FLASK_ENV: production
-      DATABASE_URL: "mysql+pymysql://microblog:microblogpass@database:3306/microblog"
+      DB_HOST: "{{ groups.databases[0] }}"
+      DB_USER: root
+      DB_PASSWORD: mypassword
+      DB_NAME: mydb
     ports:
-      - "8000:8000"
+      - "5001:5000"
+
+- name: Wait for new Microblog container to respond
+  uri:
+    url: http://localhost:5001/
+    status_code: 200
+  register: version_check
+  until: version_check.status == 200
+  retries: 10
+  delay: 5
+
+# - name: Fail if wrong version deployed
+#   fail:
+#     msg: "Deployment failed: wrong version"
+#   when: version_check.content != "{{ microblog_version }}"
+
+- name: Stop old Microblog container
+  community.docker.docker_container:
+    name: microblog
+    state: absent
+
+- name: Start new Microblog container with correct name
+  community.docker.docker_container:
+    name: microblog
+    image: "stonie24/devops:{{ microblog_version }}"
+    state: started
+    restart_policy: always
+    env:
+      FLASK_APP: microblog
+      FLASK_ENV: production
+      DB_HOST: "{{ groups.databases[0] }}"
+      DB_USER: root
+      DB_PASSWORD: mypassword
+      DB_NAME: mydb
+    ports:
+      - "8000:5000"
