@@ -23,7 +23,7 @@ jobs:
         cache-dependency-path: |
           requirements/deploy.txt
           ansible/requirements.yml
-
+        fail-on-cache-miss: false
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
