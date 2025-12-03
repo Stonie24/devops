@@ -2,8 +2,10 @@
 Contains routes for main purpose of app
 app/main/routes.py
 """
+import os
 from datetime import datetime
 from flask import render_template, flash, redirect, url_for, request, current_app
+from flask import jsonify
 from flask_login import current_user, login_required
 from app import db
 from app.main.forms import EditProfileForm, PostForm
@@ -123,3 +125,12 @@ def unfollow(username):
     db.session.commit()
     flash(f'You are not following {username}.')
     return redirect(url_for('main.user', username=username))
+
+@bp.route('/version')
+def version():
+    """
+    Returns the current app version
+    """
+    # Read from environment variable or fallback to default
+    app_version = os.environ.get("APP_VERSION", "1.0.1-prod")
+    return jsonify({"version": app_version})

@@ -1,6 +1,8 @@
 ---
--   import_playbook: gather_instances.yml
 -   import_playbook: terminate_instances.yml
 -   import_playbook: provision_instances.yml
 -   import_playbook: gather_instances.yml
 -   import_playbook: 10-first-minutes.yml
+-   import_playbook: deploy_lb.yml
+-   import_playbook: database.yml
+-   import_playbook: microblog.yml

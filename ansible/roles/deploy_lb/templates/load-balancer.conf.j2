@@ -1,6 +1,8 @@
-http {
+
     upstream app-hosts {
-        server {{ groups['appserver'][0] }}:8000;
+      {% for host in groups['appserver'] %}
+         server {{ hostvars[host].ansible_host }}:8000;
+      {% endfor %}
     }
 
     access_log /var/log/nginx/access.log;
@@ -30,4 +32,3 @@ http {
        }
     }
 
-}

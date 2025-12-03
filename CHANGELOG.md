@@ -1,18 +1,20 @@
-- Merge branch 'master' into dev type(fix): fix file path in CD test
+## V12.0.1
+- type(fix): Update SSH paths and deployment configuration
+- Add dynamic inventory and version endpoint, update deployment
+- Update Docker tags in CI/CD workflow
+- Modify CD workflow to use workflow_run trigger
+- Remove Ansible deployment from CD workflow
+- jag är för trött godnatt , (la till versionen igen så att vi automatiskt kan köra playbooken för micro blog)
+- Refactor CI/CD workflow for Docker actions(im stupid)
+- Update CI/CD workflow for Docker and add Ansible deployment
+- Change playbook from deploy_app.yml to microblog.yml
+- Refactor GitHub Actions workflow for Python app
+- Add GitHub Actions workflow for Ansible deployment
+- Merge branch 'dbwebb-se:master' into master
+- Merge pull request #6 from Stonie24/dev
 - Specify Dockerfile path for production build
-- Merge branch 'dev' of github.com:Stonie24/devops into dev Merge origin dev
 - Merge pull request #5 from Stonie24/feature/followers
-- Merge branch 'master' into dev type(CI): get CI chian to dev
 - Allow workflow on 'dev' branch in addition to 'master'
-- type(fix): fix lint erors
-- type(fix): Fixed Dockerfile
-- type(fix): fix docker issues
-- type(fix): fixed Dockerfile_prod typo
-- type(feat): Add follow func to frontend
-- type(feat): Add follow routes
-- type(test): add follow pytests
-- type(build): Migrate followers to database
-- type(feature): add followers functionlity
 - Merge pull request #3 from Stonie24/build/docker
 - Add Continuous Delivery workflow configuration
 - Add workflow_call trigger to Python app workflow
@@ -22,9 +24,7 @@
 - type(Build): Add production Dockerfile for Flask app
 - Delete dockerfile
 - type(build) Add test service to docker-compose configuration
-- type(docs): add status badge to README
 - type(ci): Add GitHub Actions workflow for Python application
 - type(build): Add Dockerfile for Python Flask app
 - type(build): create dockercompose.yml
 - Merge pull request #1 from Stonie24/chore/git-repo
-- type(chore): add commit-template for project

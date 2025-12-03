@@ -31,6 +31,7 @@
 
 # Here we utilize that we added each instance to hosts.
 -   hosts: devops
+    serial: 1
     connection: local # Keep ansible from open ssh connection
     gather_facts: False
     # no_log: True
