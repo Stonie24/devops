@@ -13,6 +13,3 @@ relative_names:
     - name: www # www.<domain>
     - name: "@" # so <domain> works as a URL. Otherwise only www.<domain> would work.
     - name: loadbalancer # loadbalancer.<domain>
-    - name: database # database.<domain>
-    - name: appserver1 # appserver1.<domain>
-    - name: appserver2 # appserver2.<domain>

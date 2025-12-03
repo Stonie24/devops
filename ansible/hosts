@@ -1,12 +1,2 @@
 [local]
 localhost ansible_connection=local
-
-[appservers]
-appserver1 ansible_host=appserver1.dusktilldawn.me ansible_user=deploy
-appserver2 ansible_host=appserver2.dusktilldawn.me ansible_user=deploy
-
-[databases]
-database ansible_host=database.dusktilldawn.me ansible_user=deploy
-
-[loadbalancers]
-loadbalancer ansible_host=loadbalancer.dusktilldawn.me ansible_user=deploy

@@ -66,3 +66,11 @@
             StudentId: "{{ vmtags.StudentId }}"
             Type: "{{ itype }}"
             PublicIP: "{{ output_ip_address.state.ip_address }}"
+
+-   name: Wait for SSH to be available
+    wait_for:
+        host: "{{ output_ip_address.state.ip_address }}"
+        port: 22
+        delay: 5
+        timeout: 300
+    delegate_to: localhost

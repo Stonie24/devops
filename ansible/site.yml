@@ -1,5 +1,4 @@
 ---
--   import_playbook: gather_instances.yml
 -   import_playbook: terminate_instances.yml
 -   import_playbook: provision_instances.yml
 -   import_playbook: gather_instances.yml
