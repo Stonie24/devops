@@ -13,14 +13,14 @@
 
 - name: Pull latest Microblog image
   community.docker.docker_image:
-    name: stonie24/devops
+    name: stonie24/microblog
     tag: "{{ microblog_version }}"
     source: pull
 
 - name: Start new Microblog container on temporary port
   community.docker.docker_container:
     name: microblog_new
-    image: "stonie24/devops:{{ microblog_version }}"
+    image: "stonie24/microblog:{{ microblog_version }}"
     state: started
     restart_policy: always
     env:
