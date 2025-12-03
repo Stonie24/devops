@@ -2,12 +2,12 @@
 Contains routes for main purpose of app
 app/main/routes.py
 """
+import os
 from datetime import datetime
 from flask import render_template, flash, redirect, url_for, request, current_app
+from flask import jsonify
 from flask_login import current_user, login_required
 from app import db
-import os
-from flask import jsonify
 from app.main.forms import EditProfileForm, PostForm
 from app.models import User, Post
 from app.main import bp
