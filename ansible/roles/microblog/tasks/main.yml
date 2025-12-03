@@ -42,10 +42,10 @@
   retries: 10
   delay: 5
 
-# - name: Fail if wrong version deployed
-#   fail:
-#     msg: "Deployment failed: wrong version"
-#   when: version_check.content != "{{ microblog_version }}"
+- name: Fail if wrong version deployed
+  fail:
+    msg: "Deployment failed: wrong version"
+  when: version_check.content != "{{ microblog_version }}"
 
 - name: Stop old Microblog container
   community.docker.docker_container:

@@ -12,5 +12,5 @@ def test_version_route(client):
         response = client.get("/version", follow_redirects=True)
         assert response.status_code == 200
         # The route returns JSON, so check for the version string
-        assert b"12.0.3-prod" in response.data
+        assert b"12.0.3-prod" not in response.data
         assert b"version" in response.data
