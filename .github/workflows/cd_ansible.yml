@@ -21,13 +21,7 @@ jobs:
         ansible-galaxy collection install azure.azcollection
         make install-deploy
   
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements/deploy.txt
-        pip install -r ~/.ansible/collections/ansible_collections/azure/azcollection/requirements.txt
-        cd ansible && ansible-galaxy install -r requirements.yml
-
+ 
     - name: Setup SSH 
       run: |
         eval `ssh-agent -s`
