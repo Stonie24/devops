@@ -18,8 +18,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        ansible-galaxy collection install azure.azcollection --force
-        pip install --upgrade msal msal-extensions azure-cli-core azure-common
+        ansible-galaxy collection install azure.azcollection
         make install-deploy
   
  
@@ -38,8 +37,6 @@ jobs:
         echo "DOCKER_TAG=$TAG_NAME" >> $GITHUB_ENV
 
     - name: Run playbook
-      run: cd ansible/ && ansible-playbook \
-            -i hosts microblog.yml \
-            --extra-vars "microblog_version=${{ env.DOCKER_TAG }}"
+      run: cd ansible/ && ansible-playbook gather_instances.yml microblog.yml --extra-vars "microblog_version=${{ env.DOCKER_TAG }}"
       env:
         ANSIBLE_HOST_KEY_CHECKING: "False"
