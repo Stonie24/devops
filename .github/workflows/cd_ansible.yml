@@ -18,8 +18,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        ansible-galaxy collection install azure.azcollection --force
-        pip install --upgrade msal msal-extensions azure-cli-core azure-common
+        ansible-galaxy collection install azure.azcollection
         make install-deploy
   
  
