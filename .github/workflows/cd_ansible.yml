@@ -40,6 +40,6 @@ jobs:
     - name: Run playbook
       run: |
         cd ansible/
-        ansible-playbook -e gather_instances.yml microblog.yml --extra-vars "microblog_version=${{ env.DOCKER_TAG }}"
+        ansible-playbook gather_instances.yml microblog.yml --extra-vars "microblog_version=${{ env.DOCKER_TAG }}"
       env:
         ANSIBLE_HOST_KEY_CHECKING: "False"
