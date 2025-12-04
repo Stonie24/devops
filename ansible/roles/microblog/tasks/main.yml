@@ -46,7 +46,7 @@
 - name: Fail if wrong version deployed
   fail:
     msg: "Deployment failed: wrong version"
-  when: version_check.json.version == microblog_version
+  when: version_check.json.version != microblog_version
 
 - name: Stop old Microblog container
   community.docker.docker_container:
