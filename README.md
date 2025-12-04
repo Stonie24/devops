@@ -15,7 +15,7 @@ The application used in this course is based on [The flask mega tutorial](https:
 Dev environment
 ------------------
 
-Here is how you setup the development environment and start the application.
+Here is how you setup the development environment and start the application. wow
 
 
 
