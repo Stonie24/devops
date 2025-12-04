@@ -18,7 +18,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        ansible-galaxy collection install azure.azcollection
+        ansible-galaxy collection install azure.azcollection --force
         make install-deploy
   
  
