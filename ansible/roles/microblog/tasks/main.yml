@@ -26,6 +26,7 @@
     env:
       FLASK_APP: microblog
       FLASK_ENV: production
+      APP_VERSION: "{{ microblog_version }}"
       DB_HOST: "database"
       DB_USER: root
       DB_PASSWORD: mypassword
@@ -45,7 +46,7 @@
 - name: Fail if wrong version deployed
   fail:
     msg: "Deployment failed: wrong version"
-  when: version_check.json.version != microblog_version
+  when: version_check.json.version == microblog_version
 
 - name: Stop old Microblog container
   community.docker.docker_container:
