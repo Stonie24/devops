@@ -37,6 +37,6 @@ jobs:
         echo "DOCKER_TAG=$TAG_NAME" >> $GITHUB_ENV
 
     - name: Run playbook
-      run: cd ansible/ && ansible-playbook gather_instances.yml microblog.yml --extra-vars "microblog_version=${{ env.DOCKER_TAG }}"
+      run: cd ansible/ && ansible-playbook microblog.yml --extra-vars "microblog_version=${{ env.DOCKER_TAG }}"
       env:
         ANSIBLE_HOST_KEY_CHECKING: "False"
