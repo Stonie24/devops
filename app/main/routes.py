@@ -126,7 +126,7 @@ def unfollow(username):
     flash(f'You are not following {username}.')
     return redirect(url_for('main.user', username=username))
 
-@bp.route('/version')
+@bp.route('/version', methods=['GET'])
 def version():
     """
     Returns the current app version

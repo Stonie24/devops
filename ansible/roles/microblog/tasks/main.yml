@@ -35,7 +35,7 @@
 
 - name: Wait for new Microblog container to respond
   uri:
-    url: http://localhost:5001/
+    url: http://localhost:5001/version
     status_code: 200
   register: version_check
   until: version_check.status == 200
@@ -45,7 +45,7 @@
 - name: Fail if wrong version deployed
   fail:
     msg: "Deployment failed: wrong version"
-  when: version_check.content != "{{ microblog_version }}"
+  when: version_check.json.version != microblog_version
 
 - name: Stop old Microblog container
   community.docker.docker_container:
@@ -55,12 +55,13 @@
 - name: Start new Microblog container with correct name
   community.docker.docker_container:
     name: microblog
-    image: "stonie24/devops:{{ microblog_version }}"
+    image: "stonie24/microblog:{{ microblog_version }}"
     state: started
     restart_policy: always
     env:
       FLASK_APP: microblog
       FLASK_ENV: production
+      APP_VERSION: "{{ microblog_version }}"
       DB_HOST: "database"
       DB_USER: root
       DB_PASSWORD: mypassword
