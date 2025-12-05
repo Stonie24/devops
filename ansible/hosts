@@ -1,2 +1,12 @@
 [local]
 localhost ansible_connection=local
+
+[appserver]
+appserver1.dusktilldawn.me
+appserver2.dusktilldawn.me
+
+[loadbalancer]
+loadbalancer.dusktilldawn.me
+
+[database]
+database.dusktilldawn.me
