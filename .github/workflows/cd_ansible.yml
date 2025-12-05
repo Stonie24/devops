@@ -15,22 +15,14 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Cache pip
-      uses: actions/setup-python@v3
-      with:
-        python-version: "3.10"
-        cache: 'pip'
-        cache-dependency-path: |
-          requirements/deploy.txt
-          ansible/requirements.yml
-
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements/deploy.txt
-        pip install -r ~/.ansible/collections/ansible_collections/azure/azcollection/requirements.txt
-        cd ansible && ansible-galaxy install -r requirements.yml
-
+        ansible-galaxy collection install azure.azcollection --force
+        pip install --upgrade msal msal-extensions azure-cli-core azure-common
+        make install-deploy
+  
+ 
     - name: Setup SSH 
       run: |
         eval `ssh-agent -s`
