@@ -1,7 +1,7 @@
 
     upstream app-hosts {
       {% for host in groups['appserver'] %}
-         server {{ hostvars[host].ansible_host }}:8000;
+         server {{ host }}:8000;
       {% endfor %}
     }
 

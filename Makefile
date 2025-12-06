@@ -77,7 +77,7 @@ help:
 .PHONY: add-ssh
 add-ssh:
 	eval `ssh-agent -s`
-	ssh-add /home/stonie/.ssh/azure
+	ssh-add /home/sandy/.ssh/azure
 
 
 
