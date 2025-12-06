@@ -36,6 +36,11 @@ jobs:
       run: |
         TAG_NAME="${{ github.event.workflow_run.head_branch }}"
         echo "DOCKER_TAG=$TAG_NAME" >> $GITHUB_ENV
+    
+    - name: Debug
+      run: |
+        pwd
+        ls -R .
 
     - name: Run playbook
       run: |
