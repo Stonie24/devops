@@ -36,15 +36,9 @@ jobs:
       run: |
         TAG_NAME="${{ github.event.workflow_run.head_branch }}"
         echo "DOCKER_TAG=$TAG_NAME" >> $GITHUB_ENV
-    
-    - name: Debug
-      run: |
-        pwd
-        ls -R .
 
     - name: Run playbook
-      run: |
-        cd ansible/
-        ansible-playbook -i hosts microblog.yml --extra-vars "microblog_version=${{ env.DOCKER_TAG }}"
+      run: ansible-playbook ansible/microblog.yml -i ansible/hosts --extra-vars "microblog_version=${DOCKER_TAG}"
+
       env:
         ANSIBLE_HOST_KEY_CHECKING: "False"
