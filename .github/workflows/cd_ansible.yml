@@ -37,6 +37,14 @@ jobs:
         TAG_NAME="${{ github.event.workflow_run.head_branch }}"
         echo "DOCKER_TAG=$TAG_NAME" >> $GITHUB_ENV
 
+    - name: Verify ansible inventory exists
+      run: |
+        pwd
+        ls -R
+        ls -R ansible || echo "ansible directory NOT FOUND"
+        echo "--- cat ansible/hosts ---"
+        cat ansible/hosts || echo "ansible/hosts NOT FOUND"
+
     - name: Run playbook
       run: ansible-playbook ansible/microblog.yml -i ansible/hosts --extra-vars "microblog_version=${DOCKER_TAG}"
 
