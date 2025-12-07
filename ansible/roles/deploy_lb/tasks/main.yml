@@ -22,7 +22,7 @@
 -   name: Generate new certificate if one doesn't exist.
     when: not letsencrypt_cert.stat.exists
     command:
-      cmd: "certbot certonly --staging --standalone --noninteractive --expand --agree-tos --email {{ admin_email }} -d {{ domain_name }} -d www.{{ domain_name }}"
+      cmd: "certbot certonly --standalone --noninteractive --expand --agree-tos --email {{ admin_email }} -d {{ domain_name }} -d www.{{ domain_name }}"
 
 -   name: Remove default conf
     file:
