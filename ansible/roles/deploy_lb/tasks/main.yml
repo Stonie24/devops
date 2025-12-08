@@ -53,8 +53,8 @@
     notify:
     - Restart nginx
 
--   name: Start services after cert has been generated.
-    service:
-      name: nginx
-      state: started
-    when: not letsencrypt_cert.stat.exists
+# -   name: Start services after cert has been generated.
+#     service:
+#       name: nginx
+#       state: started
+#     when: not letsencrypt_cert.stat.exists
