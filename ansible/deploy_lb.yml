@@ -1,5 +1,5 @@
 ---
-    -   hosts: loadbalancer
+    -   hosts: lb
         remote_user: deploy
         become: yes
         become_method: sudo
