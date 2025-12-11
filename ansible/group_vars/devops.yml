@@ -9,8 +9,8 @@ server_user_groups:
     -   sudo
 
 pub_ssh_key_location:
-    - './sandy.pub'
-    - './stonie.pub'
+    - '../roles/10-first-minutes/files/SandyN19.pub'
+    - '../roles/10-first-minutes/files/Stonie24.pub'
 
 users_users:
     -  user: deploy
