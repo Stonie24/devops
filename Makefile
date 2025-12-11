@@ -55,7 +55,8 @@ THIS_MAKEFILE := $(call WHERE-AM-I)
 
 # Echo some nice helptext based on the target comment
 HELPTEXT = $(ECHO) "$(ACTION)--->" `egrep "^\# target: $(1) " $(THIS_MAKEFILE) | sed "s/\# target: $(1)[ ]*-[ ]* / /g"` "$(NO_COLOR)"
-
+TAG := $(shell git describe --tags --abbrev=0)
+IMAGE := stonie/microblog:$(TAG)
 
 
 # ----------------------------------------------------------------------------
@@ -222,3 +223,21 @@ install-deploy:
 .PHONY: test-bandit
 test-bandit:
 	bandit -r app
+
+ # target: run trivy
+.PHONY: scan-all
+scan-all:
+    docker build -f docker/Dockerfile_prod -t $(IMAGE) . && \
+    docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image \
+        --scanners vuln,secret,misconfig \
+        --no-progress \
+        --severity HIGH,CRITICAL \
+        --exit-code 1 \
+        $(IMAGE) && \
+    docker run --rm -v "$$PWD":/repo -w /repo aquasec/trivy:latest fs \
+        --scanners vuln,secret,misconfig \
+        --severity HIGH,CRITICAL \
+        --exit-code 1 \
+        --no-progress \
+        --skip-dirs .venv,venv \
+        .
