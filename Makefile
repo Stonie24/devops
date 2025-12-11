@@ -224,20 +224,21 @@ install-deploy:
 test-bandit:
 	bandit -r app
 
- # target: run trivy
+# target: run trivy
 .PHONY: scan-all
 scan-all:
-    docker build -f docker/Dockerfile_prod -t $(IMAGE) . && \
-    docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image \
-        --scanners vuln,secret,misconfig \
-        --no-progress \
-        --severity HIGH,CRITICAL \
-        --exit-code 1 \
-        $(IMAGE) && \
-    docker run --rm -v "$$PWD":/repo -w /repo aquasec/trivy:latest fs \
-        --scanners vuln,secret,misconfig \
-        --severity HIGH,CRITICAL \
-        --exit-code 1 \
-        --no-progress \
-        --skip-dirs .venv,venv \
-        .
+	 docker build -f docker/Dockerfile_prod -t $(IMAGE) . && \
+	 docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image \
+	    --scanners vuln,secret,misconfig \
+	    --no-progress \
+	    --severity HIGH,CRITICAL \
+	    --exit-code 1 \
+	    $(IMAGE) && \
+	 docker run --rm -v "$$PWD":/repo -w /repo aquasec/trivy:latest fs \
+	    --scanners vuln,secret,misconfig \
+	    --severity HIGH,CRITICAL \
+	    --exit-code 1 \
+	    --no-progress \
+	    --skip-dirs .venv,venv \
+	    .
+
