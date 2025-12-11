@@ -216,3 +216,9 @@ install-deploy:
 	${pip} install -r requirements/deploy.txt
 	${pip} install -r ~/.ansible/collections/ansible_collections/azure/azcollection/requirements.txt
 	cd ansible && ansible-galaxy install -r requirements.yml --force
+
+
+# target: run bandit
+.PHONY: test-bandit
+test-bandit:
+	bandit -r app
