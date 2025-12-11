@@ -2,7 +2,7 @@
 Contains Databse model classes
 """
 
-from hashlib import md5
+from hashlib import sha256
 from datetime import datetime
 from flask import current_app
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -90,7 +90,7 @@ class User(UserMixin, db.Model):
         """
         Return Gravatar URL based on email
         """
-        digest = md5(self.email.lower().encode('utf-8')).hexdigest()
+        digest = sha256(self.email.lower().encode('utf-8')).hexdigest()
         url = f'https://www.gravatar.com/avatar/{digest}?d=retro&s={size}'
         current_app.logger.debug(f"Get gravatar {url}")
         return url
