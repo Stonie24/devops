@@ -10,16 +10,6 @@
         - include_vars: roles/provision_instances/vars/main.yml
         - include_tasks: roles/provision_instances/tasks/add_vms_as_hosts.yml
 
-
-
--   name: create security groups
-    hosts: local
-    gather_facts: False
-    roles: 
-        - security_groups
-
-
-
 -   name: create networks
     hosts: local
     gather_facts: False
@@ -39,3 +29,11 @@
         - azure.azcollection
     roles:
         - provision_instances
+
+
+-   name: create security groups
+    hosts: local
+    gather_facts: False
+    roles: 
+        - gather_instances
+        - security_groups
