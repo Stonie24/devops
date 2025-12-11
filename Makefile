@@ -245,10 +245,10 @@ scan-all:
  # target: Scan docker
 .PHONY: scan-docker
 scan-docker:
-    @VERSION=$$(curl -s https://api.github.com/repos/goodwithtech/dockle/releases/latest \
-        | grep '"tag_name":' \
-        | sed -E 's/.*"v([^"]+)".*/\1/') ; \
-    echo "Using Dockle version $$VERSION on image $(IMAGE)" ; \
-    docker build -t $(IMAGE) -f docker/Dockerfile_prod . ; \
-    docker run --rm -v /var/run/docker.sock:/var/run/docker.sock \
-        goodwithtech/dockle:v$${VERSION} $(IMAGE) 
+	@VERSION=$$(curl -s https://api.github.com/repos/goodwithtech/dockle/releases/latest \
+		| grep '"tag_name":' \
+		| sed -E 's/.*"v([^"]+)".*/\1/') ; \
+	echo "Using Dockle version $$VERSION on image $(IMAGE)" ; \
+	docker build -t $(IMAGE) -f docker/Dockerfile_prod . ; \
+	docker run --rm -v /var/run/docker.sock:/var/run/docker.sock \
+		goodwithtech/dockle:v$${VERSION} $(IMAGE) 
