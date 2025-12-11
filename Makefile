@@ -227,18 +227,28 @@ test-bandit:
 # target: run trivy
 .PHONY: scan-all
 scan-all:
-	 docker build -f docker/Dockerfile_prod -t $(IMAGE) . && \
-	 docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image \
-	    --scanners vuln,secret,misconfig \
-	    --no-progress \
-	    --severity HIGH,CRITICAL \
-	    --exit-code 1 \
-	    $(IMAGE) && \
-	 docker run --rm -v "$$PWD":/repo -w /repo aquasec/trivy:latest fs \
-	    --scanners vuln,secret,misconfig \
-	    --severity HIGH,CRITICAL \
-	    --exit-code 1 \
-	    --no-progress \
-	    --skip-dirs .venv,venv \
-	    .
+	docker build -f docker/Dockerfile_prod -t $(IMAGE) . && \
+	docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image \
+	   --scanners vuln,secret,misconfig \
+	   --no-progress \
+	   --severity HIGH,CRITICAL \
+	   --exit-code 1 \
+	   $(IMAGE) && \
+	docker run --rm -v "$$PWD":/repo -w /repo aquasec/trivy:latest fs \
+	   --scanners vuln,secret,misconfig \
+	   --severity HIGH,CRITICAL \
+	   --exit-code 1 \
+	   --no-progress \
+	   --skip-dirs .venv,venv \
+	   .
 
+ # target: Scan docker
+.PHONY: scan-docker
+scan-docker:
+    @VERSION=$$(curl -s https://api.github.com/repos/goodwithtech/dockle/releases/latest \
+        | grep '"tag_name":' \
+        | sed -E 's/.*"v([^"]+)".*/\1/') ; \
+    echo "Using Dockle version $$VERSION on image $(IMAGE)" ; \
+    docker build -t $(IMAGE) -f docker/Dockerfile_prod . ; \
+    docker run --rm -v /var/run/docker.sock:/var/run/docker.sock \
+        goodwithtech/dockle:v$${VERSION} $(IMAGE) 
