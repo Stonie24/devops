@@ -55,8 +55,8 @@ THIS_MAKEFILE := $(call WHERE-AM-I)
 
 # Echo some nice helptext based on the target comment
 HELPTEXT = $(ECHO) "$(ACTION)--->" `egrep "^\# target: $(1) " $(THIS_MAKEFILE) | sed "s/\# target: $(1)[ ]*-[ ]* / /g"` "$(NO_COLOR)"
-TAG := $(shell git describe --tags --abbrev=0)
-IMAGE := stonie/microblog:$(TAG)
+TAG := $(shell git describe --tags --abbrev=0 2>/dev/null || git rev-parse --short HEAD)
+IMAGE := microblog:$(TAG)
 
 
 # ----------------------------------------------------------------------------
