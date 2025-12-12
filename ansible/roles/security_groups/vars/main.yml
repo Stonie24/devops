@@ -48,10 +48,17 @@ sg_groups:
             priority: 1001
             direction: Inbound
             source_address_prefix: '0.0.0.0/0'
-        -   name: MYSQL
+        -   name: MYSQL1
             protocol: Tcp
             destination_port_range: 3306
             access: Allow
             priority: 1002
             direction: Inbound
-            source_address_prefix: '0.0.0.0/0'
+            source_address_prefix: "{{ groups['appserver'][0] }}/32"
+        -   name: MYSQL2
+            protocol: Tcp
+            destination_port_range: 3306
+            access: Allow
+            priority: 1002
+            direction: Inbound
+            source_address_prefix: "{{ groups['appserver'][1] }}/32"

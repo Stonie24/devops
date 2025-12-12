@@ -52,7 +52,12 @@ def test_register_user_missing_data(client):
     Test registering a user when missing data in form.
     """
     response = client.post('/register',
-        data={},
+        data={
+            "username": "",
+            "email": "",
+            "password": "",
+            "password2": "",
+        },
         follow_redirects=True,
     )
     assert response.status_code == 200

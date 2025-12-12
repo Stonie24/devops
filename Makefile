@@ -55,7 +55,8 @@ THIS_MAKEFILE := $(call WHERE-AM-I)
 
 # Echo some nice helptext based on the target comment
 HELPTEXT = $(ECHO) "$(ACTION)--->" `egrep "^\# target: $(1) " $(THIS_MAKEFILE) | sed "s/\# target: $(1)[ ]*-[ ]* / /g"` "$(NO_COLOR)"
-
+TAG := $(shell git describe --tags --abbrev=0 2>/dev/null || git rev-parse --short HEAD)
+IMAGE := microblog:$(TAG)
 
 
 # ----------------------------------------------------------------------------
@@ -216,3 +217,38 @@ install-deploy:
 	${pip} install -r requirements/deploy.txt
 	${pip} install -r ~/.ansible/collections/ansible_collections/azure/azcollection/requirements.txt
 	cd ansible && ansible-galaxy install -r requirements.yml --force
+
+
+# target: run bandit
+.PHONY: test-bandit
+test-bandit:
+	bandit -r app
+
+# target: run trivy
+.PHONY: scan-all
+scan-all:
+	docker build -f docker/Dockerfile_prod -t $(IMAGE) . && \
+	docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image \
+	   --scanners vuln,secret,misconfig \
+	   --no-progress \
+	   --severity HIGH,CRITICAL \
+	   --exit-code 1 \
+	   $(IMAGE) && \
+	docker run --rm -v "$$PWD":/repo -w /repo aquasec/trivy:latest fs \
+	   --scanners vuln,secret,misconfig \
+	   --severity HIGH,CRITICAL \
+	   --exit-code 1 \
+	   --no-progress \
+	   --skip-dirs .venv,venv \
+	   .
+
+ # target: Scan docker
+.PHONY: scan-docker
+scan-docker:
+	@VERSION=$$(curl -s https://api.github.com/repos/goodwithtech/dockle/releases/latest \
+		| grep '"tag_name":' \
+		| sed -E 's/.*"v([^"]+)".*/\1/') ; \
+	echo "Using Dockle version $$VERSION on image $(IMAGE)" ; \
+	docker build -t $(IMAGE) -f docker/Dockerfile_prod . ; \
+	docker run --rm -v /var/run/docker.sock:/var/run/docker.sock \
+		goodwithtech/dockle:v$${VERSION} $(IMAGE) 

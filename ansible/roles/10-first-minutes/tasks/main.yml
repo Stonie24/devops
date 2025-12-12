@@ -53,6 +53,19 @@
         state: present
         validate: '/usr/sbin/visudo -cf %s' # kan få fel med line "{{ server_user }} testing"
 
+-   name: Remove default sshd_config
+    file:
+        path: /etc/ssh/sshd_config
+        state: absent
+
+-   name: Add new sshd config
+    template:
+        src: files/sshd_config.j2
+        dest: /etc/ssh/sshd_config
+    notify:
+        - restart ssh
+
+
 -   name: Disallow root and password ssh access
     lineinfile:
         path: /etc/ssh/sshd_config
