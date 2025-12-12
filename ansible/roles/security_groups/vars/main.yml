@@ -54,11 +54,11 @@ sg_groups:
             access: Allow
             priority: 1002
             direction: Inbound
-            source_address_prefix: "{{ groups['appserver'][0] }}/32"
+            source_address_prefix: "{{ hostvars['appserver1'].ansible_host }}/32"
         -   name: MYSQL2
             protocol: Tcp
             destination_port_range: 3306
             access: Allow
-            priority: 1002
+            priority: 1003
             direction: Inbound
-            source_address_prefix: "{{ groups['appserver'][1] }}/32"
+            source_address_prefix: "{{ hostvars['appserver2'].ansible_host }}/32"

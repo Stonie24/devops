@@ -83,19 +83,8 @@
 -   name: flush handlers to restart SSH
     meta: flush_handlers # we cant do it later because after this we cant ssh as root
 
-
-
-
-# - name: Set ssh keys for regular users from GitHub
-#   authorized_key:
-#     user: "{{ item.user }}"
-#     key: "https://github.com/{{ item.github }}.keys"
-#     exclusive: yes
-#   # with_items: "{{ users_regular_users | selectattr('github', 'defined') }}"
-#   with_items: "{{ users_users }}"
-#   when: item.github is defined
-
 -   name: Only allow user to ssh
+    remote_user: "{{ server_user }}"
     lineinfile:
         path: /etc/ssh/sshd_config
         regexp: "^AllowUsers"
