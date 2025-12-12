@@ -82,4 +82,4 @@ services:
 
 volumes:
   prometheus_data: {}
-  db_data: {}
+  db_data:
