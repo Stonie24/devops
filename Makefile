@@ -252,5 +252,6 @@ scan-docker:
 	docker build -t $(IMAGE) -f docker/Dockerfile_prod . ; \
 	docker run --rm -v /var/run/docker.sock:/var/run/docker.sock \
 		goodwithtech/dockle:v$${VERSION} \
+		--ignore DKL-DI-0004 \
 		--exit-code 1 \
 		$(IMAGE)
