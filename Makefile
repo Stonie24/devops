@@ -251,5 +251,6 @@ scan-docker:
 	echo "Using Dockle version $$VERSION on image $(IMAGE)" ; \
 	docker build -t $(IMAGE) -f docker/Dockerfile_prod . ; \
 	docker run --rm -v /var/run/docker.sock:/var/run/docker.sock \
-		goodwithtech/dockle:v$${VERSION} $(IMAGE) \
-		--exit-code 1
+		goodwithtech/dockle:v$${VERSION} \
+		--exit-code 1 \
+		$(IMAGE)
