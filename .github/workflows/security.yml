@@ -28,7 +28,7 @@ jobs:
 
     - name: Makefile
       run: |
-        make install-dev
+        make install-test
 
     - name: Run bandit
       run: |
