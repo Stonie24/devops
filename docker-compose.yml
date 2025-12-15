@@ -91,6 +91,6 @@ services:
     command: ["/run-tests.sh"]
 
 volumes:
-  prometheus_data: {}
-  grafana_data: {}
+  prometheus_data:
+  grafana_data:
   db_data:
