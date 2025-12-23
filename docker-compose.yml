@@ -60,6 +60,8 @@ services:
       - db_data:/var/lib/mysql
     ports:
       - "3306:3306"
+    networks:
+      - monitor
 
   prod:
     build:
@@ -69,12 +71,14 @@ services:
     restart: always
     environment:
       FLASK_APP: microblog
-      FLASK_ENV: production
+      # FLASK_ENV: production
       DATABASE_URL: mysql+pymysql://microblog:microblogpass@db/microblog
     depends_on:
       - db
     ports:
       - "5000:5000"
+    networks:
+      - monitor
 
   test:
     build:
@@ -82,7 +86,7 @@ services:
       dockerfile: docker/Dockerfile_test
     container_name: microblog_test
     environment:
-      FLASK_ENV: testing
+      # FLASK_ENV: testing
       DATABASE_URL: mysql+pymysql://microblog:microblogpass@db/microblog_test
     depends_on:
       - db
