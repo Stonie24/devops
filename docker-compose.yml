@@ -26,6 +26,7 @@ services:
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
       - prometheus_data:/prometheus
+      - ./rules.yml:/etc/prometheus/rules.yml
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
       - "--storage.tsdb.path=/prometheus"
@@ -47,6 +48,18 @@ services:
       - monitor
     ports:
       - "3000:3000"
+  
+  alertmanager:
+    image: prom/alertmanager:v0.23.0
+    restart: unless-stopped
+    volumes:
+      - ./alertmanager.yml:/config/alertmanager.yml
+    command:
+      - "--config.file=/config/alertmanager.yml"
+    networks:
+      - monitor
+    ports:
+      - "9093:9093"
 
   db:
     image: mysql:8.0
