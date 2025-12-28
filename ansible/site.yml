@@ -7,3 +7,4 @@
 -   import_playbook: deploy_lb.yml
 -   import_playbook: database.yml
 -   import_playbook: microblog.yml
+-   import_playbook: monitoring.yml

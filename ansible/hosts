@@ -10,3 +10,6 @@ lb ansible_host=loadbalancer.dusktilldawn.me
 
 [database]
 db ansible_host=database.dusktilldawn.me
+
+[monitoring]
+monitor ansible_host=monitoring.dusktilldawn.me

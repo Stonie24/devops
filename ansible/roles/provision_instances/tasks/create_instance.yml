@@ -51,6 +51,18 @@
     when: iname == 'database'
     delegate_to: 127.0.0.1
 
+- name: Ensure "A" record for monitoring server
+  azure_rm_dnsrecordset:
+      resource_group: "{{ resource_group }}"
+      relative_name: "{{ iname }}"
+      zone_name: "{{ domain_name }}"
+      record_type: A
+      state: present
+      records:
+      - entry: "{{ output_ip_address.state.ip_address }}"
+  when: itype == 'monitoring'
+  delegate_to: 127.0.0.1
+
 -   name: Ensure "A" record for each appserver
     azure_rm_dnsrecordset:
         resource_group: "{{ resource_group }}"

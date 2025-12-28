@@ -1,0 +1,64 @@
+---
+- name: Install Docker
+  apt:
+    name:
+      - docker.io
+      - docker-compose
+    state: present
+    update_cache: yes
+
+- name: Ensure Docker is running
+  service:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: Ensure monitoring directory exists
+  file:
+    path: /opt/monitoring
+    state: directory
+
+- name: Copy monitoring docker-compose file
+  copy:
+    src: docker-compose.yml
+    dest: /opt/monitoring/docker-compose.yml
+
+- name: Copy prometheus config
+  copy:
+    src: prometheus.yml
+    dest: /opt/monitoring/prometheus.yml
+
+- name: Copy alertmanager config
+  copy:
+    src: alertmanager.yml
+    dest: /opt/monitoring/alertmanager.yml
+
+- name: Copy prometheus rules
+  copy:
+    src: rules.yml
+    dest: /opt/monitoring/rules.yml
+
+- name: Deploy monitoring stack
+  command: docker-compose -f docker-compose.yml up -d
+  args:
+    chdir: /opt/monitoring
+
+- name: Wait for Grafana to be available
+  uri:
+    url: http://localhost:3000/api/health
+    status_code: 200
+  retries: 10
+  delay: 5
+
+
+- name: Add Prometheus datasource to Grafana
+  community.grafana.grafana_datasource:
+    name: Prometheus
+    ds_type: prometheus
+    ds_url: http://prometheus:9090
+    access: proxy
+    is_default: true
+    grafana_url: http://localhost:3000
+    grafana_user: admin
+    grafana_password: admin
+

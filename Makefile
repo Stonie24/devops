@@ -216,6 +216,7 @@ install-test:
 install-deploy:
 	${pip} install -r requirements/deploy.txt
 	${pip} install -r ~/.ansible/collections/ansible_collections/azure/azcollection/requirements.txt
+	ansible-galaxy collection install community.grafana
 	cd ansible && ansible-galaxy install -r requirements.yml --force
 
 
