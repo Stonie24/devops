@@ -76,5 +76,6 @@ ERROR_COUNT = Counter(
 
 @bp.route('/trigger-error')
 def trigger_error():
+    """Trigger an error to test monitoring"""
     ERROR_COUNT.labels(endpoint="/trigger-error").inc()
-    raise Exception("This is a test error to trigger monitoring alerts")
+    raise RuntimeError("Test error to trigger monitoring alerts")
