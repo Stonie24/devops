@@ -5,7 +5,7 @@ from urllib.parse import urlparse
 
 from flask import render_template, redirect, url_for, flash, request, current_app
 from flask_login import login_user, logout_user, current_user
-
+from prometheus_client import Counter
 from app import db
 from app.auth import bp
 from app.auth.forms import LoginForm, RegistrationForm
@@ -67,3 +67,14 @@ def logout():
     current_app.logger.debug(f"{current_user} loged out")
     logout_user()
     return redirect(url_for('main.index'))
+
+ERROR_COUNT = Counter(
+    "flask_http_request_errors_total",
+    "Total number of HTTP errors",
+    ["endpoint"]
+)
+
+@bp.route('/trigger-error')
+def trigger_error():
+    ERROR_COUNT.labels(endpoint="/trigger-error").inc()
+    raise Exception("This is a test error to trigger monitoring alerts")
