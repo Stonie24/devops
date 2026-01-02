@@ -1,5 +1,6 @@
 networks:
   monitor:
+    external: true
 
 services:
   node-exporter:
@@ -46,6 +47,10 @@ services:
       - grafana_data:/var/lib/grafana
     networks:
       - monitor
+    environment:
+      - GF_SERVER_DOMAIN=dusktilldawn.me
+      - GF_SERVER_ROOT_URL=https://dusktilldawn.me/grafana/
+      - GF_SERVER_SERVE_FROM_SUB_PATH=true
     ports:
       - "3000:3000"
   

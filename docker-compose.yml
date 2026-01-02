@@ -22,7 +22,6 @@ services:
     build:
       context: .
       dockerfile: docker/Dockerfile_prod
-    container_name: microblog
     restart: always
     environment:
       FLASK_APP: microblog
