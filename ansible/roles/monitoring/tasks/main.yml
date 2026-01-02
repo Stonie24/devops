@@ -43,8 +43,13 @@
     src: rules.yml
     dest: /opt/monitoring/rules.yml
 
+- name: Ensure monitor network exists
+  command: docker network create monitor
+  ignore_errors: yes
+
+
 - name: Deploy monitoring stack
-  command: docker compose up -d
+  command: docker compose -p devops up -d
   args:
     chdir: /opt/monitoring
 

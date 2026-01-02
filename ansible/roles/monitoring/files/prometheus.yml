@@ -14,7 +14,9 @@ scrape_configs:
           instance: prometheus
   - job_name: "flask"
     static_configs:
-      - targets: ['devops-prod-1:5000']
+      - targets:
+          - '52.169.155.225:5000'
+          - '52.169.153.19:5000'
         labels:
           instance: flask
 alerting:
