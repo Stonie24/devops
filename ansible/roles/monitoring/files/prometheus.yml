@@ -14,7 +14,7 @@ scrape_configs:
           instance: prometheus
   - job_name: "flask"
     static_configs:
-      - targets: ['microblog:5000']
+      - targets: ['prod:5000']
         labels:
           instance: flask
 alerting:
