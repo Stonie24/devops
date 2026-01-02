@@ -26,7 +26,7 @@ EOF
 
 USER microblog
 
-ENV prometheus_multiproc_dir=/tmp
+ENV PROMETHEUS_MULTIPROC_DIR=/tmp
 
 EXPOSE 5000
 ENTRYPOINT ["./boot.sh"]

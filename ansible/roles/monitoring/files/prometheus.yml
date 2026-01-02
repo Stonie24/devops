@@ -15,8 +15,8 @@ scrape_configs:
   - job_name: "flask"
     static_configs:
       - targets:
-          - '52.169.155.225:5000'
-          - '52.169.153.19:5000'
+          - '52.169.155.225:8000'
+          - '52.169.153.19:8000'
         labels:
           instance: flask
 alerting:
