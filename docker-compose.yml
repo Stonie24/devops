@@ -34,19 +34,19 @@ services:
     networks:
       - monitor
 
-  # test:
-  #   build:
-  #     context: .
-  #     dockerfile: docker/Dockerfile_test
-  #   container_name: microblog_test
-  #   environment:
-  #     # FLASK_ENV: testing
-  #     DATABASE_URL: mysql+pymysql://microblog:microblogpass@db/microblog_test
-  #   depends_on:
-  #     - db
-  #   volumes:
-  #     - ./:/app
-  #   command: ["/run-tests.sh"]
+  test:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile_test
+    container_name: microblog_test
+    environment:
+      # FLASK_ENV: testing
+      DATABASE_URL: mysql+pymysql://microblog:microblogpass@db/microblog_test
+    depends_on:
+      - db
+    volumes:
+      - ./:/app
+    command: ["/run-tests.sh"]
 
 volumes:
   db_data:
