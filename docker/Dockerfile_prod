@@ -9,6 +9,7 @@ COPY app app
 COPY migrations migrations
 COPY requirements requirements
 COPY requirements.txt microblog.py boot.sh ./
+COPY gunicorn_config.py gunicorn_config.py
 
 RUN <<-EOF
     python -m venv .venv
@@ -24,6 +25,8 @@ RUN <<-EOF
 EOF
 
 USER microblog
+
+ENV PROMETHEUS_MULTIPROC_DIR=/tmp
 
 EXPOSE 5000
 ENTRYPOINT ["./boot.sh"]
