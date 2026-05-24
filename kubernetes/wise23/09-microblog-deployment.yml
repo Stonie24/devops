@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: microblog
+spec:
+  selector:
+    matchLabels:
+      app: microblog
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: microblog
+    spec:
+      containers:
+      - name: microblog
+        image: stonie24/microblog:v14.0.5
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000
+        env:
+        - name: FLASK_APP
+          value: microblog
+        - name: DATABASE_URL
+          value: mysql+pymysql://microblog:microblogpass@mysql/microblog
+        - name: PROMETHEUS_MULTIPROC_DIR
+          value: /tmp
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: microblog
+spec:
+  ports:
+  - port: 80
+    targetPort: 5000
+    protocol: TCP
+  selector:
+    app: microblog
