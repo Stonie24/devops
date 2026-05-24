@@ -15,6 +15,11 @@ spec:
       containers:
       - name: microblog
         image: stonie24/microblog:v14.0.5
+        resources:
+          requests:
+            cpu: 250m
+          limits:
+            cpu: 250m
         imagePullPolicy: Always
         ports:
         - containerPort: 5000
