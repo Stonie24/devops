@@ -25,14 +25,14 @@ spec:
         app: mysql
     spec:
       containers:
-      - image: mysql:5.7
+      - image: mysql:8.0
         name: mysql
         env:
           # Use secret in real usage
         - name: MYSQL_USER
-          value: <user>
+          value: microblog
         - name: MYSQL_DATABASE
-          value: <db_name>
+          value: microblog
         - name: MYSQL_PASSWORD
           valueFrom:
             secretKeyRef:

@@ -2,20 +2,29 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kuard
+  name: microblog
 spec:
   selector:
     matchLabels:
-      app: kuard
-  replicas: 1
+      app: microblog
+  replicas: 2
   template:
     metadata:
       labels:
-        app: kuard
+        app: microblog
     spec:
       containers:
-      - image: gcr.io/google-samples/kubernetes-bootcamp:v1
+      - image: stonie24/microblog:v14.0.5
         imagePullPolicy: Always
-        name: kuard
+        name: microblog
+        env:
+          - name: FLASK_APP
+            value: microblog
+
+          - name: FLASK_ENV
+            value: production
+
+          - name: DATABASE_URL
+            value: mysql+pymysql://microblog:microblogpass@mysql/microblog
         ports:
-        - containerPort: 8080
+        - containerPort: 5000

@@ -2,7 +2,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: kuard
+  name: microblog
   annotations:
     cert-manager.io/issuer: "letsencrypt-prod"
 
@@ -20,6 +20,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: kuard
+            name: microblog
             port:
               number: 80
