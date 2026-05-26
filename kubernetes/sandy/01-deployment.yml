@@ -1,0 +1,35 @@
+# 01-deployment.yml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: microblog
+spec:
+  selector:
+    matchLabels:
+      app: microblog
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: microblog
+    spec:
+      containers:
+      - image: sandyn19/microblog:v14.0.6
+        imagePullPolicy: Always
+        name: microblog
+        resources:
+          requests:
+            cpu: 250m
+          limits:
+            cpu: 500m
+        env:
+          - name: FLASK_APP
+            value: microblog
+
+          - name: FLASK_ENV
+            value: production
+
+          - name: DATABASE_URL
+            value: mysql+pymysql://microblog:microblogpass@mysql/microblog
+        ports:
+        - containerPort: 5000

@@ -1,0 +1,12 @@
+# 02-service.yml
+apiVersion: v1
+kind: Service
+metadata:
+  name: microblog
+spec:
+  ports:
+  - port: 80
+    targetPort: 5000
+    protocol: TCP
+  selector:
+    app: microblog
