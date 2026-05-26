@@ -1,0 +1,35 @@
+## v13.0.0
+- type(feat): get latest
+- Merge remote-tracking branch 'origin/feature/security' get latest
+- type(fix): fix ip adresses
+- type(fix): change path
+- type(fix): fixed makefile so it handles a false possetive error
+- Update .dockleignore
+- Update Makefile
+- Update Makefile
+- Update .dockleignore
+- Remove DKL-DI-0004 from .dockleignore
+- Update .dockleignore to only ignore DKL-DI-0004
+- Merge pull request #12 from Stonie24/feature/security
+- type(versioncontroll): changed versions
+- type(fix): Update Docker image tag and name in Makefile
+- type(fix): updated url import
+- type(fix): update test
+- type(fix): update package versions
+- Change Makefile target from install-dev to install-test
+- type(fix): change ssh key path
+- Merge pull request #11 from Stonie24/feature/ansible
+- Add security testing workflow for Python application
+- type(try): try
+- type(feat): add dockler
+- type(fix): change ip
+- type(fix): change order
+- type(feat): add trivy
+- type(fix): fix dockle comment
+- type(feat): add trivy
+- type(fix): update version
+- type(fix): add usedforsecurity=False
+- type(revert): revert to md5
+- add bandit command
+- type(feature): add bandit
+- type(fix): change .pub paths

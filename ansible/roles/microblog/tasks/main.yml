@@ -1,0 +1,73 @@
+---
+- name: Install Docker
+  apt:
+    name: docker.io
+    state: present
+    update_cache: yes
+
+- name: Ensure Docker is running
+  service:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: Pull latest Microblog image
+  community.docker.docker_image:
+    name: stonie24/microblog
+    tag: "{{ microblog_version }}"
+    source: pull
+
+- name: Start new Microblog container on temporary port
+  community.docker.docker_container:
+    name: microblog_new
+    image: "stonie24/microblog:{{ microblog_version }}"
+    state: started
+    restart_policy: always
+    env:
+      FLASK_APP: microblog
+      FLASK_ENV: production
+      APP_VERSION: "{{ microblog_version }}"
+      DB_HOST: "database"
+      DB_USER: root
+      DB_PASSWORD: mypassword
+      DB_NAME: mydb
+      PROMETHEUS_MULTIPROC_DIR: /tmp
+    ports:
+      - "5001:5000"
+
+- name: Wait for new Microblog container to respond
+  uri:
+    url: http://localhost:5001/version
+    status_code: 200
+  register: version_check
+  until: version_check.status == 200
+  retries: 10
+  delay: 5
+
+- name: Fail if wrong version deployed
+  fail:
+    msg: "Deployment failed: wrong version"
+  when: version_check.json.version != microblog_version
+
+- name: Stop old Microblog container
+  community.docker.docker_container:
+    name: microblog
+    state: absent
+
+- name: Start new Microblog container with correct name
+  community.docker.docker_container:
+    name: microblog
+    image: "stonie24/microblog:{{ microblog_version }}"
+    state: started
+    restart_policy: always
+    env:
+      FLASK_APP: microblog
+      FLASK_ENV: production
+      APP_VERSION: "{{ microblog_version }}"
+      DB_HOST: "database"
+      DB_USER: root
+      DB_PASSWORD: mypassword
+      DB_NAME: mydb
+      PROMETHEUS_MULTIPROC_DIR: /tmp
+    ports:
+      - "8000:5000"

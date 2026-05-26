@@ -44,6 +44,7 @@
     with_items: "{{ pub_ssh_key_location }}"
 
 
+
 -   name: Add user to sudoers
     lineinfile:
         dest: /etc/sudoers
@@ -51,6 +52,19 @@
         line: "{{ server_user }} ALL=(ALL) NOPASSWD:ALL"
         state: present
         validate: '/usr/sbin/visudo -cf %s' # kan få fel med line "{{ server_user }} testing"
+
+-   name: Remove default sshd_config
+    file:
+        path: /etc/ssh/sshd_config
+        state: absent
+
+-   name: Add new sshd config
+    template:
+        src: files/sshd_config.j2
+        dest: /etc/ssh/sshd_config
+    notify:
+        - restart ssh
+
 
 -   name: Disallow root and password ssh access
     lineinfile:
@@ -70,12 +84,13 @@
     meta: flush_handlers # we cant do it later because after this we cant ssh as root
 
 -   name: Only allow user to ssh
+    remote_user: "{{ server_user }}"
     lineinfile:
         path: /etc/ssh/sshd_config
         regexp: "^AllowUsers"
         line: "AllowUsers {{ server_user }}"
         state: present
-    # ignore_errors: yes
+    ignore_errors: yes
 
 -   name: Remove default user
     remote_user: "{{ server_user }}"

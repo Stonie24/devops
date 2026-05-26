@@ -109,3 +109,9 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# Make file 
+Makefile
+
+# Ansible variable files
+ansible/group_vars/all.yml

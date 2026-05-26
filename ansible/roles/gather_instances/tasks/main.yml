@@ -15,7 +15,8 @@
 
 -   name: add instance to hosts
     add_host:
-        name: "{{ item.tags.PublicIP }}"
+        name: "{{ item.name[0:-3] }}"
+        ansible_host: "{{ item.tags.PublicIP }}"
         groups:
         - "{{ item.name[0:-3] }}" # instance name from provision_instances/vars/main.yml
         - "{{ item.tags.Type }}" # instance type from provision_instances/vars/main.yml
