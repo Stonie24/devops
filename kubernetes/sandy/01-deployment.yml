@@ -14,9 +14,14 @@ spec:
         app: microblog
     spec:
       containers:
-      - image: stonie24/microblog:v14.0.5
+      - image: sandyn19/microblog:v14.0.6
         imagePullPolicy: Always
         name: microblog
+        resources:
+          requests:
+            cpu: 250m
+          limits:
+            cpu: 500m
         env:
           - name: FLASK_APP
             value: microblog
